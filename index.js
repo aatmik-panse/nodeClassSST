@@ -2,24 +2,24 @@ console.log("Hello from Node");
 const path = require("path");
 var fs = require("fs");
 
-let filePath = "./file.txt";
-let fileDir = path.dirname(filePath);
-let fileName = path.basename(filePath);
-let fileExt = path.extname(filePath);
-let fileBase = path.basename(filePath, fileExt);
+// let filePath = "./file.txt";
+// let fileDir = path.dirname(filePath);
+// let fileName = path.basename(filePath);
+// let fileExt = path.extname(filePath);
+// let fileBase = path.basename(filePath, fileExt);
 
-let fileAbsPath = path.resolve("./newFile3.txt");
-console.log("File Abs Path: ", fileAbsPath);
+// let fileAbsPath = path.resolve("./newFile3.txt");
+// console.log("File Abs Path: ", fileAbsPath);
 
-let folderAbsPath = path.resolve("./newDir/");
-console.log("Folder Abs Path: ", folderAbsPath);
+// let folderAbsPath = path.resolve("./newDir/");
+// console.log("Folder Abs Path: ", folderAbsPath);
 
-let newDir = path.join(folderAbsPath, "newFIletext.txt");
+// let newDir = path.join(folderAbsPath, "newFIletext.txt");
 
-fs.copyFile(fileAbsPath, newDir, function (err) {
-  if (err) throw err;
-  console.log("File copied successfully!");
-});
+// fs.copyFile(fileAbsPath, newDir, function (err) {
+//   if (err) throw err;
+//   console.log("File copied successfully!");
+// });
 
 // console.log("Dir: ", fileDir);
 // console.log("Name: ", fileName);
@@ -86,15 +86,20 @@ fs.copyFile(fileAbsPath, newDir, function (err) {
 // https://www.jsdelivr.com/
 
 const http = require("http");
+const url = require("url");
 
 const server = http.createServer((req, res) => {
+  const parsedUrl = url.parse(req.url, true);
+
+  console.log("Parsed URL: ", parsedUrl);
+
   res.setHeader("Content-Type", "text/html");
   res.write("<html><head></head><body>");
-  res.write("<h1>Hello from Node</h1>");
-  res.write("<h2>Path Module</h2>");
-  res.write("</body></html>");
-
-  res.end();
+  if (parsedUrl.pathname === "/login") {
+    fs.readFile("login.html", "utf8");
+  } else {
+    fs.readFile("index.html", "utf8");
+  }
 });
 
 const port = 1212;
