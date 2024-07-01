@@ -94,15 +94,21 @@ const server = http.createServer((req, res) => {
   console.log("Parsed URL: ", parsedUrl);
 
   res.setHeader("Content-Type", "text/html");
-  res.write("<html><head></head><body>");
-  if (parsedUrl.pathname === "/login") {
-    res.write("<h1>Login</h1>");
-  } else {
-    res.write("<h1>Hello from Node</h1>");
-    res.write("<h2>Path Module</h2>");
-  }
-  res.write("</body></html>");
-  res.end();
+
+  const filePath =
+    parsedUrl.pathname === "/login" ? "login.html" : "index.html";
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      res.writeHead(500);
+      res.end("Error loading the page");
+    } else {
+      res.write("<html><head></head><body>");
+      res.write(data);
+      res.write("</body></html>");
+      res.end();
+    }
+  });
 });
 
 const port = 1212;
