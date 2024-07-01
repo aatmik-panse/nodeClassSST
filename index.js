@@ -96,10 +96,13 @@ const server = http.createServer((req, res) => {
   res.setHeader("Content-Type", "text/html");
   res.write("<html><head></head><body>");
   if (parsedUrl.pathname === "/login") {
-    fs.readFile("login.html", "utf8");
+    res.write("<h1>Login</h1>");
   } else {
-    fs.readFile("index.html", "utf8");
+    res.write("<h1>Hello from Node</h1>");
+    res.write("<h2>Path Module</h2>");
   }
+  res.write("</body></html>");
+  res.end();
 });
 
 const port = 1212;
